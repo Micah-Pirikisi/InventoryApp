@@ -1,22 +1,28 @@
 const express = require("express");
 const pool = require("./db");
+const path = require("path");
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Welcome to the Inventory App!');
-});
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-app.get("/test-db", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT NOW()");
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Database error");
-  }
-});
+// Middleware to parse form data (important!)
+app.use(express.urlencoded({ extended: true }));
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+// Import route files
+const categoryRoutes = require('./routes/categoryRoutes');
+const filmRoutes = require('./routes/filmRoutes');
+const actorRoutes = require('./routes/actorRoutes');
+const directorRoutes = require('./routes/directorRoutes');
+
+// Use them with prefixes
+app.use('/categories', categoryRoutes);
+app.use('/films', filmRoutes);
+app.use('/actors', actorRoutes);
+app.use('/directors', directorRoutes);
+
+// Start Server
+app.listen(8000, () => {
+  console.log("Server running on http://localhost:8000");
 });
