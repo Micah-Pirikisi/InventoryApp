@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Micah-Pirikisi/InventoryApp#readme",
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^5.2.1",
     "pg": "^8.16.3"
   }
