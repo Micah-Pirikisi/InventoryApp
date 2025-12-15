@@ -1,9 +1,9 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: 'inventory_user',
+  user: 'devmicah',
   host: 'localhost',
-  database: 'inventory_app',
+  database: 'devmicah',
   password: 'micahtadiwapirikisi', // the password you set
   port: 5432,
 });
