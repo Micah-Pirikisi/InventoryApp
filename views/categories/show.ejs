@@ -6,6 +6,16 @@
   <body>
     <h1><%= category.name %></h1>
     <p><%= category.description %></p>
+
+    <a href="/categories/<%= category.category_id %>/edit">Edit</a>
+    <form
+      action="/categories/<%= category.category_id %>?_method=DELETE"
+      method="POST"
+      style="display: inline"
+    >
+      <button type="submit">Delete</button>
+    </form>
+    <br />
     <a href="/categories">Back to all categories</a>
   </body>
 </html>

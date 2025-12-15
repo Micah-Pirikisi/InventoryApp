@@ -9,6 +9,16 @@
     <p>Duration: <%= film.duration_minutes %> minutes</p>
     <p>Rating: <%= film.rating %></p>
     <p><%= film.description %></p>
+
+    <a href="/films/<%= film.film_id %>/edit">Edit</a>
+    <form
+      action="/films/<%= film.film_id %>?_method=DELETE"
+      method="POST"
+      style="display: inline"
+    >
+      <button type="submit">Delete</button>
+    </form>
+    <br />
     <a href="/films">Back to all films</a>
   </body>
 </html>

@@ -26,6 +26,11 @@ app.use("/directors", directorRoutes);
 app.use("/films", filmActorRoutes);
 app.use("/films", filmDirectorRoutes);
 
+// Render 
+app.get('/', (req, res) => {
+  res.render('home'); 
+});
+
 // Start Server
 app.listen(8000, () => {
   console.log("Server running on http://localhost:8000");
