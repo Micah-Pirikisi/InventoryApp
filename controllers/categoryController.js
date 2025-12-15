@@ -1,5 +1,36 @@
 const pool = require("../db");
 
+// Render all categories
+exports.getAllCategories = async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM categories ORDER BY category_id"
+    );
+    res.render("categories/index", { categories: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+// Render single category
+exports.getCategoryById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      "SELECT * FROM categories WHERE category_id = $1",
+      [id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).send("Category not found");
+    }
+    res.render("categories/show", { category: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
 // GET all categories
 exports.getAllCategories = async (req, res) => {
   try {

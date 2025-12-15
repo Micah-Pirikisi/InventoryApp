@@ -1,5 +1,33 @@
 const pool = require("../db");
 
+// Render all films
+exports.getAllFilms = async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM films ORDER BY film_id");
+    res.render("films/index", { films: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+// Render single film
+exports.getFilmById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("SELECT * FROM films WHERE film_id = $1", [
+      id,
+    ]);
+    if (result.rows.length === 0) {
+      return res.status(404).send("Film not found");
+    }
+    res.render("films/show", { film: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
 // GET all films
 exports.getAllFilms = async (req, res) => {
   try {
