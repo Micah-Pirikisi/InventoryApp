@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Categories</title>
+  </head>
+  <body>
+    <h1>All Categories</h1>
+    <ul>
+      <% categories.forEach(cat => { %>
+      <li>
+        <a href="/categories/<%= cat.category_id %>"><%= cat.name %></a>
+      </li>
+      <% }) %>
+    </ul>
+  </body>
+</html>
