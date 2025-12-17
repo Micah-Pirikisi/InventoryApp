@@ -1,7 +1,6 @@
 const express = require("express");
 const pool = require("./db");
 const path = require("path");
-const methodOverride = require('method-override');
 
 const app = express();
 
@@ -10,7 +9,6 @@ app.set("views", path.join(__dirname, "views"));
 
 // Middleware to parse form data (important!)
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
 
 // Import route files
 const categoryRoutes = require("./routes/categoryRoutes");

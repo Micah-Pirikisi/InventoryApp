@@ -10,6 +10,42 @@
     <p>Rating: <%= film.rating %></p>
     <p><%= film.description %></p>
 
+    <h2>Director/s</h2>
+    <ul>
+      <% directors.forEach(director => { %>
+      <li><%= director.name %></li>
+      <% }) %>
+    </ul>
+
+    <form action="/films/<%= film.film_id %>/directors" method="POST">
+      <label for="director_id">Add Director:</label>
+      <select name="director_id">
+        <% allDirectors.forEach(director => { %>
+        <option value="<%= director.director_id %>">
+          <%= director.name %>
+        </option>
+        <% }) %>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+
+    <h2>Actors</h2>
+    <ul>
+      <% actors.forEach(actor => { %>
+      <li><%= actor.name %></li>
+      <% }) %>
+    </ul>
+
+    <form action="/films/<%= film.film_id %>/actors" method="POST">
+      <label for="actor_id">Add Actor:</label>
+      <select name="actor_id">
+        <% allActors.forEach(actor => { %>
+        <option value="<%= actor.actor_id %>"><%= actor.name %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+
     <a href="/films/<%= film.film_id %>/edit">Edit</a>
     <form
       action="/films/<%= film.film_id %>?_method=DELETE"
