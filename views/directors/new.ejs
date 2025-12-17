@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Director</title>
+  </head>
+  <body>
+    <h1>Create Director</h1>
+    <form action="/directors" method="POST">
+      <label for="name">Name</label>
+      <input type="text" name="name" required />
+
+      <label for="birth_year">Birth Year</label>
+      <input type="number" name="birth_year" />
+
+      <label for="nationality">Nationality</label>
+      <input type="text" name="nationality" />
+
+      <button type="submit">Create Director</button>
+    </form>
+
+    <a href="/directors">Back to Directors</a>
+  </body>
+</html>

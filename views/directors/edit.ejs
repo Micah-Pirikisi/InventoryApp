@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Director</title>
+  </head>
+  <body>
+    <h1>Edit Director</h1>
+    <form
+      action="/directors/<%= director.director_id %>?_method=PUT"
+      method="POST"
+    >
+      <label for="name">Name</label>
+      <input type="text" name="name" value="<%= director.name %>" required />
+
+      <label for="birth_year">Birth Year</label>
+      <input
+        type="number"
+        name="birth_year"
+        value="<%= director.birth_year %>"
+      />
+
+      <label for="nationality">Nationality</label>
+      <input
+        type="text"
+        name="nationality"
+        value="<%= director.nationality %>"
+      />
+
+      <button type="submit">Update Director</button>
+    </form>
+
+    <a href="/directors/<%= director.director_id %>">Cancel</a>
+  </body>
+</html>
