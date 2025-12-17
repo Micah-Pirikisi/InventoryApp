@@ -11,17 +11,56 @@ exports.getAllFilms = async (req, res) => {
   }
 };
 
-// Render single film
+// Render single film with actors and directors
 exports.getFilmById = async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query("SELECT * FROM films WHERE film_id = $1", [
-      id,
-    ]);
-    if (result.rows.length === 0) {
+    // Get the film itself
+    const filmResult = await pool.query(
+      "SELECT * FROM films WHERE film_id = $1",
+      [id]
+    );
+    if (filmResult.rows.length === 0) {
       return res.status(404).send("Film not found");
     }
-    res.render("films/show", { film: result.rows[0] });
+    const film = filmResult.rows[0];
+
+    // Get linked directors
+    const directorResult = await pool.query(
+      `SELECT d.* 
+       FROM directors d
+       JOIN film_directors fd ON d.director_id = fd.director_id
+       WHERE fd.film_id = $1`,
+      [id]
+    );
+
+    // Get linked actors
+    const actorResult = await pool.query(
+      `SELECT a.* 
+       FROM actors a
+       JOIN film_actors fa ON a.actor_id = fa.actor_id
+       WHERE fa.film_id = $1`,
+      [id]
+    );
+
+    // Get all directors (for dropdown)
+    const allDirectorsResult = await pool.query(
+      "SELECT * FROM directors ORDER BY name"
+    );
+
+    // Get all actors (for dropdown)
+    const allActorsResult = await pool.query(
+      "SELECT * FROM actors ORDER BY name"
+    );
+
+    // Render the view with all data
+    res.render("films/show", {
+      film,
+      directors: directorResult.rows,
+      actors: actorResult.rows,
+      allDirectors: allDirectorsResult.rows,
+      allActors: allActorsResult.rows,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
