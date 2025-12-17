@@ -1,17 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Inventory App</title>
+    <title>My Film Library</title>
   </head>
   <body>
-    <h1>Welcome to the Film Inventory App</h1>
-    <nav>
-      <ul>
-        <li><a href="/categories">View Categories</a></li>
-        <li><a href="/films">View Films</a></li>
-        <li><a href="/actors">View Actors</a></li>
-        <li><a href="/directors">View Directors</a></li>
-      </ul>
-    </nav>
+    <main>
+      <div style="text-align: center; margin-bottom: 32px">
+        <h1 style="margin-bottom: 8px">Your Film Library</h1>
+        <p style="color: var(--muted); font-size: 1.1rem; margin: 0">
+          Curate, organize, and explore your collection
+        </p>
+      </div>
+
+      <% if (typeof featuredFilms !== 'undefined' && featuredFilms &&
+      featuredFilms.length > 0) { %>
+      <section class="featured-section">
+        <h2>Featured Films</h2>
+        <div class="carousel">
+          <% featuredFilms.forEach(film => { %>
+          <a
+            class="carousel-item"
+            href="/films/<%= film.film_id %>"
+            title="<%= film.title %>"
+          >
+            <img
+              src="<%= film.poster_url || film.image_url || film.poster || ('/posters/' + film.film_id + '.jpg') || '/poster-placeholder.svg' %>"
+              alt="<%= film.title %>"
+            />
+            <div class="carousel-title"><%= film.title %></div>
+          </a>
+          <% }) %>
+        </div>
+      </section>
+      <% } %>
+
+      <section style="margin-top: 40px">
+        <h2>Explore</h2>
+        <nav>
+          <ul class="list-cards">
+            <li><a class="card-link" href="/categories">View Categories</a></li>
+            <li><a class="card-link" href="/films">View Films</a></li>
+            <li><a class="card-link" href="/actors">View Actors</a></li>
+            <li><a class="card-link" href="/directors">View Directors</a></li>
+          </ul>
+        </nav>
+      </section>
+    </main>
   </body>
 </html>

@@ -4,34 +4,61 @@
     <title>New Film</title>
   </head>
   <body>
-    <h1>Create a New Film</h1>
+    <main>
+      <h1>Create a New Film</h1>
 
-    <form action="/films" method="POST">
-      <label for="title">Title</label>
-      <input type="text" name="title" required />
+      <form action="/films" method="POST" enctype="multipart/form-data">
+        <label for="title">Title</label>
+        <input type="text" name="title" required />
 
-      <label for="release_year">Release Year</label>
-      <input type="number" name="release_year" />
+        <div class="upload-group">
+          <label>Poster Image</label>
+          <div class="upload-options">
+            <div>
+              <label for="poster_file" class="upload-label"
+                >Upload from Computer</label
+              >
+              <input
+                type="file"
+                id="poster_file"
+                name="poster_file"
+                accept="image/*"
+              />
+            </div>
+            <div>
+              <label for="poster_url">Or paste Image URL</label>
+              <input
+                type="text"
+                name="poster_url"
+                placeholder="https://.../poster.jpg"
+              />
+            </div>
+          </div>
+        </div>
 
-      <label for="duration_minutes">Duration (minutes)</label>
-      <input type="number" name="duration_minutes" />
+        <label for="release_year">Release Year</label>
+        <input type="number" name="release_year" />
 
-      <label for="rating">Rating</label>
-      <input type="text" name="rating" />
+        <label for="duration_minutes">Duration (minutes)</label>
+        <input type="number" name="duration_minutes" />
 
-      <label for="category_id">Category</label>
-      <select name="category_id" required>
-        <% categories.forEach(cat => { %>
-        <option value="<%= cat.category_id %>"><%= cat.name %></option>
-        <% }) %>
-      </select>
+        <label for="rating">Rating</label>
+        <input type="text" name="rating" />
 
-      <label for="description">Description</label>
-      <textarea name="description"></textarea>
+        <label for="category_id">Category</label>
+        <select name="category_id" required>
+          <% categories.forEach(cat => { %>
+          <option value="<%= cat.category_id %>"><%= cat.name %></option>
+          <% }) %>
+        </select>
 
-      <button type="submit">Create Film</button>
-    </form>
+        <label for="description">Description</label>
+        <textarea name="description"></textarea>
 
-    <a href="/films">Back to Films</a>
+        <button class="btn" type="submit">Create Film</button>
+      </form>
+
+      <a class="btn ghost" href="/films">Back to Films</a>
+    </main>
   </body>
 </html>

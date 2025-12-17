@@ -5,11 +5,18 @@
   </head>
   <body>
     <h1>All Categories</h1>
-    <a href="/categories/new">+ Add New Category</a>
-    <ul>
+    <a class="btn" href="/categories/new">+ Add New Category</a>
+    <ul class="list-cards">
       <% categories.forEach(cat => { %>
       <li>
-        <a href="/categories/<%= cat.category_id %>"><%= cat.name %></a>
+        <a class="card-link" href="/categories/<%= cat.category_id %>"
+          ><%= cat.name %></a
+        >
+        <div class="actions">
+          <a class="btn ghost" href="/categories/<%= cat.category_id %>/edit"
+            >Edit</a
+          >
+        </div>
       </li>
       <% }) %>
     </ul>

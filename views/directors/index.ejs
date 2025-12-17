@@ -5,13 +5,29 @@
   </head>
   <body>
     <h1>All Directors</h1>
-    <ul>
+    <ul class="list-cards">
       <% directors.forEach(director => { %>
       <li>
-        <a href="/directors/<%= director.director_id %>"><%= director.name %></a>
+        <div style="display: flex; align-items: center; gap: 12px">
+          <img
+            class="avatar"
+            alt="<%= director.name %>"
+            src="<%= director.image_url || director.photo_url || ('/profiles/' + director.director_id + '.jpg') || '/profile-placeholder.svg' %>"
+          />
+          <a class="card-link" href="/directors/<%= director.director_id %>"
+            ><%= director.name %></a
+          >
+        </div>
+        <div class="actions">
+          <a
+            class="btn ghost"
+            href="/directors/<%= director.director_id %>/edit"
+            >Edit</a
+          >
+        </div>
       </li>
       <% }) %>
     </ul>
-    <a href="/directors/new">+ Add New Director</a>
+    <a class="btn" href="/directors/new">+ Add New Director</a>
   </body>
 </html>

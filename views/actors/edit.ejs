@@ -5,9 +5,39 @@
   </head>
   <body>
     <h1>Edit Actor</h1>
-    <form action="/actors/<%= actor.actor_id %>?_method=PUT" method="POST">
+    <form
+      action="/actors/<%= actor.actor_id %>?_method=PUT"
+      method="POST"
+      enctype="multipart/form-data"
+    >
       <label for="name">Name</label>
       <input type="text" name="name" value="<%= actor.name %>" required />
+
+      <div class="upload-group">
+        <label>Profile Image</label>
+        <div class="upload-options">
+          <div>
+            <label for="image_file" class="upload-label"
+              >Upload from Computer</label
+            >
+            <input
+              type="file"
+              id="image_file"
+              name="image_file"
+              accept="image/*"
+            />
+          </div>
+          <div>
+            <label for="image_url">Or paste Image URL</label>
+            <input
+              type="text"
+              name="image_url"
+              value="<%= actor.image_url || actor.photo_url || '' %>"
+              placeholder="https://.../photo.jpg"
+            />
+          </div>
+        </div>
+      </div>
 
       <label for="birth_year">Birth Year</label>
       <input type="number" name="birth_year" value="<%= actor.birth_year %>" />
@@ -15,9 +45,9 @@
       <label for="nationality">Nationality</label>
       <input type="text" name="nationality" value="<%= actor.nationality %>" />
 
-      <button type="submit">Update Actor</button>
+      <button class="btn" type="submit">Update Actor</button>
     </form>
 
-    <a href="/actors/<%= actor.actor_id %>">Cancel</a>
+    <a class="btn ghost" href="/actors/<%= actor.actor_id %>">Cancel</a>
   </body>
 </html>

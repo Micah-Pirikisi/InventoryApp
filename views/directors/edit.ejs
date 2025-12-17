@@ -8,9 +8,36 @@
     <form
       action="/directors/<%= director.director_id %>?_method=PUT"
       method="POST"
+      enctype="multipart/form-data"
     >
       <label for="name">Name</label>
       <input type="text" name="name" value="<%= director.name %>" required />
+
+      <div class="upload-group">
+        <label>Profile Image</label>
+        <div class="upload-options">
+          <div>
+            <label for="image_file" class="upload-label"
+              >Upload from Computer</label
+            >
+            <input
+              type="file"
+              id="image_file"
+              name="image_file"
+              accept="image/*"
+            />
+          </div>
+          <div>
+            <label for="image_url">Or paste Image URL</label>
+            <input
+              type="text"
+              name="image_url"
+              value="<%= director.image_url || director.photo_url || '' %>"
+              placeholder="https://.../photo.jpg"
+            />
+          </div>
+        </div>
+      </div>
 
       <label for="birth_year">Birth Year</label>
       <input
@@ -26,9 +53,11 @@
         value="<%= director.nationality %>"
       />
 
-      <button type="submit">Update Director</button>
+      <button class="btn" type="submit">Update Director</button>
     </form>
 
-    <a href="/directors/<%= director.director_id %>">Cancel</a>
+    <a class="btn ghost" href="/directors/<%= director.director_id %>"
+      >Cancel</a
+    >
   </body>
 </html>

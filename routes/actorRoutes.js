@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const actorController = require("../controllers/actorController");
+const { uploadProfile } = require("../app");
 
 // Render new actor form
 router.get("/new", (req, res) => {
@@ -27,8 +28,18 @@ router.get("/:id/edit", async (req, res) => {
 // CRUD routes
 router.get("/", actorController.getAllActors);
 router.get("/:id", actorController.getActorById);
-router.post("/", actorController.createActor);
-router.put("/:id", actorController.updateActor);
+router.post(
+  "/",
+  uploadProfile.single("image_file"),
+  express.urlencoded({ extended: true }),
+  actorController.createActor
+);
+router.put(
+  "/:id",
+  uploadProfile.single("image_file"),
+  express.urlencoded({ extended: true }),
+  actorController.updateActor
+);
 router.delete("/:id", actorController.deleteActor);
 
 module.exports = router;

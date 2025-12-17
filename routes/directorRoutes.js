@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const directorController = require("../controllers/directorController");
+const { uploadProfile } = require("../app");
 
 // Render new director form
 router.get("/new", (req, res) => {
@@ -27,8 +28,18 @@ router.get("/:id/edit", async (req, res) => {
 // CRUD routes
 router.get("/", directorController.getAllDirectors);
 router.get("/:id", directorController.getDirectorById);
-router.post("/", directorController.createDirector);
-router.put("/:id", directorController.updateDirector);
+router.post(
+  "/",
+  uploadProfile.single("image_file"),
+  express.urlencoded({ extended: true }),
+  directorController.createDirector
+);
+router.put(
+  "/:id",
+  uploadProfile.single("image_file"),
+  express.urlencoded({ extended: true }),
+  directorController.updateDirector
+);
 router.delete("/:id", directorController.deleteDirector);
 
 module.exports = router;

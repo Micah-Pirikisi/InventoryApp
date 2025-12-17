@@ -4,14 +4,36 @@
     <title>Films</title>
   </head>
   <body>
-    <h1>All Films</h1>
-    <a href="/films/new">+ Add New Film</a>
-    <ul>
-      <% films.forEach(film => { %>
-      <li>
-        <a href="/films/<%= film.film_id %>"><%= film.title %></a>
-      </li>
-      <% }) %>
-    </ul>
+    <main>
+      <div class="controls">
+        <h1>All Films</h1>
+        <div>
+          <a class="btn" href="/films/new">+ Add New Film</a>
+        </div>
+      </div>
+
+      <section class="film-grid">
+        <% films.forEach(film => { %>
+        <article class="film-card">
+          <a class="card-link" href="/films/<%= film.film_id %>">
+            <img
+              class="poster"
+              alt="<%= film.title %> poster"
+              src="<%= film.poster_url || film.image_url || film.poster || ('/posters/' + film.film_id + '.jpg') || '/poster-placeholder.svg' %>"
+            />
+          </a>
+          <div class="card-body">
+            <a class="card-link" href="/films/<%= film.film_id %>"
+              ><h3 class="film-title"><%= film.title %></h3></a
+            >
+            <div class="film-meta">
+              <%= film.release_year ? film.release_year : '' %> • <%=
+              film.duration_minutes ? (film.duration_minutes + ' min') : '' %>
+            </div>
+          </div>
+        </article>
+        <% }) %>
+      </section>
+    </main>
   </body>
 </html>

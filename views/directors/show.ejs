@@ -4,19 +4,40 @@
     <title><%= director.name %></title>
   </head>
   <body>
-    <h1><%= director.name %></h1>
-    <p>Born: <%= director.birth_year %></p>
-    <p>Nationality: <%= director.nationality %></p>
+    <main>
+      <a class="btn ghost" href="/directors">← All Directors</a>
+      <div style="height: 12px"></div>
+      <div class="profile-show">
+        <div>
+          <img
+            class="profile-image"
+            alt="<%= director.name %>"
+            src="<%= director.image_url || director.photo_url || ('/profiles/' + director.director_id + '.jpg') || '/profile-placeholder.svg' %>"
+          />
+        </div>
+        <section class="detail-section">
+          <h1 style="margin-top: 0"><%= director.name %></h1>
+          <ul class="meta-list">
+            <li>Born: <strong><%= director.birth_year || '—' %></strong></li>
+            <li>
+              Nationality: <strong><%= director.nationality || '—' %></strong>
+            </li>
+          </ul>
 
-    <a href="/actors/<%= director.director_id %>/edit">Edit</a>
-    <form
-      action="/actors/<%= director.director_id %>?_method=DELETE"
-      method="POST"
-      style="display: inline"
-    >
-      <button type="submit">Delete</button>
-    </form>
-    <br />
-    <a href="/directors">Back to all directors</a>
+          <div style="margin-top: 14px">
+            <a class="btn" href="/actors/<%= director.director_id %>/edit"
+              >Edit</a
+            >
+            <form
+              action="/actors/<%= director.director_id %>?_method=DELETE"
+              method="POST"
+              style="display: inline; margin-left: 8px"
+            >
+              <button class="btn ghost" type="submit">Delete</button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
   </body>
 </html>

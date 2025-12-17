@@ -4,7 +4,7 @@ const pool = require("../db");
 exports.getAllFilms = async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM films ORDER BY film_id");
-    res.render("films/index", { films: result.rows });
+    res.render("films/index", { title: "Films", films: result.rows });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
@@ -15,7 +15,6 @@ exports.getAllFilms = async (req, res) => {
 exports.getFilmById = async (req, res) => {
   const { id } = req.params;
   try {
-    // Get the film itself
     const filmResult = await pool.query(
       "SELECT * FROM films WHERE film_id = $1",
       [id]
@@ -25,7 +24,6 @@ exports.getFilmById = async (req, res) => {
     }
     const film = filmResult.rows[0];
 
-    // Get linked directors
     const directorResult = await pool.query(
       `SELECT d.* 
        FROM directors d
@@ -34,7 +32,6 @@ exports.getFilmById = async (req, res) => {
       [id]
     );
 
-    // Get linked actors
     const actorResult = await pool.query(
       `SELECT a.* 
        FROM actors a
@@ -43,18 +40,15 @@ exports.getFilmById = async (req, res) => {
       [id]
     );
 
-    // Get all directors (for dropdown)
     const allDirectorsResult = await pool.query(
       "SELECT * FROM directors ORDER BY name"
     );
-
-    // Get all actors (for dropdown)
     const allActorsResult = await pool.query(
       "SELECT * FROM actors ORDER BY name"
     );
 
-    // Render the view with all data
     res.render("films/show", {
+      title: film.title,
       film,
       directors: directorResult.rows,
       actors: actorResult.rows,
@@ -76,11 +70,24 @@ exports.createFilm = async (req, res) => {
     rating,
     category_id,
     description,
+    poster_url,
   } = req.body;
+
+  // Use uploaded file if present, otherwise use URL
+  const posterPath = req.file ? `/posters/${req.file.filename}` : poster_url;
+
   try {
     await pool.query(
-      "INSERT INTO films (title, release_year, duration_minutes, rating, category_id, description) VALUES ($1, $2, $3, $4, $5, $6)",
-      [title, release_year, duration_minutes, rating, category_id, description]
+      "INSERT INTO films (title, release_year, duration_minutes, rating, category_id, description, poster_url) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      [
+        title,
+        release_year,
+        duration_minutes,
+        rating,
+        category_id,
+        description,
+        posterPath,
+      ]
     );
     res.redirect("/films");
   } catch (err) {
@@ -93,7 +100,36 @@ exports.createFilm = async (req, res) => {
 exports.newFilmForm = async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM categories ORDER BY name");
-    res.render("films/new", { categories: result.rows });
+    res.render("films/new", { title: "New Film", categories: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+// EDIT FILM FORM
+exports.editFilmForm = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const filmResult = await pool.query(
+      "SELECT * FROM films WHERE film_id = $1",
+      [id]
+    );
+    if (filmResult.rows.length === 0) {
+      return res.status(404).send("Film not found");
+    }
+    const film = filmResult.rows[0];
+
+    // You’ll probably want categories for the dropdown
+    const categoriesResult = await pool.query(
+      "SELECT * FROM categories ORDER BY name"
+    );
+
+    res.render("films/edit", {
+      title: "Edit Film",
+      film,
+      categories: categoriesResult.rows,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
@@ -110,10 +146,15 @@ exports.updateFilm = async (req, res) => {
     rating,
     category_id,
     description,
+    poster_url,
   } = req.body;
+
+  // Use uploaded file if present, otherwise use URL
+  const posterPath = req.file ? `/posters/${req.file.filename}` : poster_url;
+
   try {
     await pool.query(
-      "UPDATE films SET title=$1, release_year=$2, duration_minutes=$3, rating=$4, category_id=$5, description=$6 WHERE film_id=$7",
+      "UPDATE films SET title=$1, release_year=$2, duration_minutes=$3, rating=$4, category_id=$5, description=$6, poster_url=$7 WHERE film_id=$8",
       [
         title,
         release_year,
@@ -121,6 +162,7 @@ exports.updateFilm = async (req, res) => {
         rating,
         category_id,
         description,
+        posterPath,
         id,
       ]
     );

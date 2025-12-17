@@ -4,75 +4,107 @@
     <title><%= film.title %></title>
   </head>
   <body>
-    <h1><%= film.title %></h1>
-    <p>Released: <%= film.release_year %></p>
-    <p>Duration: <%= film.duration_minutes %> minutes</p>
-    <p>Rating: <%= film.rating %></p>
-    <p><%= film.description %></p>
+    <main>
+      <a class="btn ghost" href="/films">← All Films</a>
+      <div style="height: 12px"></div>
+      <div class="film-show">
+        <div>
+          <img
+            class="film-poster-large"
+            alt="<%= film.title %> poster"
+            src="<%= film.poster_url || film.image_url || film.poster || ('/posters/' + film.film_id + '.jpg') || '/poster-placeholder.svg' %>"
+          />
+        </div>
 
-    <h2>Director/s</h2>
-    <ul>
-      <% directors.forEach(director => { %>
-      <li>
-        <%= director.name %>
-        <form
-          action="/films/<%= film.film_id %>/directors/<%= director.director_id %>?_method=DELETE"
-          method="POST"
-          style="display: inline"
-        >
-          <button type="submit">Remove</button>
-        </form>
-      </li>
-      <% }) %>
-    </ul>
+        <section class="detail-section">
+          <h1 style="margin-top: 0"><%= film.title %></h1>
+          <ul class="meta-list">
+            <li>Released: <strong><%= film.release_year || '—' %></strong></li>
+            <li>
+              Duration:
+              <strong
+                ><%= film.duration_minutes ? film.duration_minutes + ' min' :
+                '—' %></strong
+              >
+            </li>
+            <li>Rating: <strong><%= film.rating || '—' %></strong></li>
+          </ul>
+          <p style="color: var(--muted)">
+            <%= film.description || 'No description provided.' %>
+          </p>
 
-    <form action="/films/<%= film.film_id %>/directors" method="POST">
-      <label for="director_id">Add Director:</label>
-      <select name="director_id" required>
-        <% allDirectors.forEach(director => { %>
-        <option value="<%= director.director_id %>">
-          <%= director.name %>
-        </option>
-        <% }) %>
-      </select>
-      <button type="submit">Add</button>
-    </form>
+          <hr />
+          <h3>Director(s)</h3>
+          <ul class="list-cards">
+            <% directors.forEach(director => { %>
+            <li>
+              <span><%= director.name %></span>
+              <div class="actions">
+                <form
+                  action="/films/<%= film.film_id %>/directors/<%= director.director_id %>?_method=DELETE"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button class="btn ghost" type="submit">Remove</button>
+                </form>
+              </div>
+            </li>
+            <% }) %>
+          </ul>
 
-    <h2>Actors</h2>
-    <ul>
-      <% actors.forEach(actor => { %>
-      <li>
-        <%= actor.name %>
-        <form
-          action="/films/<%= film.film_id %>/actors/<%= actor.actor_id %>?_method=DELETE"
-          method="POST"
-          style="display: inline"
-        >
-          <button type="submit">Remove</button>
-        </form>
-      </li>
-      <% }) %>
-    </ul>
+          <form action="/films/<%= film.film_id %>/directors" method="POST">
+            <label for="director_id">Add Director:</label>
+            <select name="director_id" required>
+              <% allDirectors.forEach(director => { %>
+              <option value="<%= director.director_id %>">
+                <%= director.name %>
+              </option>
+              <% }) %>
+            </select>
+            <button class="btn" type="submit">Add</button>
+          </form>
 
-    <form action="/films/<%= film.film_id %>/actors" method="POST">
-      <label for="actor_id">Add Actor:</label>
-      <select name="actor_id" required>
-        <% allActors.forEach(actor => { %>
-        <option value="<%= actor.actor_id %>"><%= actor.name %></option>
-        <% }) %>
-      </select>
-      <button type="submit">Add</button>
-    </form>
+          <hr />
+          <h3>Actors</h3>
+          <ul class="list-cards">
+            <% actors.forEach(actor => { %>
+            <li>
+              <span><%= actor.name %></span>
+              <div class="actions">
+                <form
+                  action="/films/<%= film.film_id %>/actors/<%= actor.actor_id %>?_method=DELETE"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button class="btn ghost" type="submit">Remove</button>
+                </form>
+              </div>
+            </li>
+            <% }) %>
+          </ul>
 
-    <a href="/films/<%= film.film_id %>/edit">Edit</a>
-    <form
-      action="/films/<%= film.film_id %>?_method=DELETE"
-      method="POST"
-      style="display: inline"
-    >
-      <button type="submit">Delete</button>
-    </form>
-    <br />
-    <a href="/films">Back to all films</a>
+          <form action="/films/<%= film.film_id %>/actors" method="POST">
+            <label for="actor_id">Add Actor:</label>
+            <select name="actor_id" required>
+              <% allActors.forEach(actor => { %>
+              <option value="<%= actor.actor_id %>"><%= actor.name %></option>
+              <% }) %>
+            </select>
+            <button class="btn" type="submit">Add</button>
+          </form>
+
+          <div style="margin-top: 14px">
+            <a class="btn" href="/films/<%= film.film_id %>/edit">Edit</a>
+            <form
+              action="/films/<%= film.film_id %>?_method=DELETE"
+              method="POST"
+              style="display: inline; margin-left: 8px"
+            >
+              <button class="btn ghost" type="submit">Delete</button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
   </body>
 </html>

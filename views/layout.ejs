@@ -1,21 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>
+      <%= typeof title !== 'undefined' ? title : 'My Film Library' %>
+    </title>
+
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <header>
-      <h1>Film Inventory</h1>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <h1>My Film Library</h1>
+      </div>
       <nav>
-        <a href="/">Home</a> | 
-        <a href="/categories">Categories</a> |
-        <a href="/films">Films</a> | 
-        <a href="/actors">Actors</a> |
-        <a href="/directors">Directors</a>
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/categories">Categories</a>
+        <a class="nav-link" href="/films">Films</a>
+        <a class="nav-link" href="/actors">Actors</a>
+        <a class="nav-link" href="/directors">Directors</a>
       </nav>
     </header>
 
     <main><%- body %></main>
+
+    <script>
+      // Handle file input display feedback
+      document.addEventListener("change", (e) => {
+        if (e.target.type === "file" && e.target.files.length > 0) {
+          const label = e.target.previousElementSibling;
+          if (label && label.classList.contains("upload-label")) {
+            label.textContent = "✓ " + e.target.files[0].name;
+            label.style.background = "rgba(107, 255, 107, 0.15)";
+            label.style.borderColor = "rgba(107, 255, 107, 0.5)";
+            label.style.color = "#6bff6b";
+          }
+        }
+      });
+    </script>
   </body>
 </html>

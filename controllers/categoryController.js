@@ -6,7 +6,10 @@ exports.getAllCategories = async (req, res) => {
     const result = await pool.query(
       "SELECT * FROM categories ORDER BY category_id"
     );
-    res.render("categories/index", { categories: result.rows });
+    res.render("categories/index", {
+      title: "Categories",
+      categories: result.rows,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
@@ -24,7 +27,23 @@ exports.getCategoryById = async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).send("Category not found");
     }
-    res.render("categories/show", { category: result.rows[0] });
+    const category = result.rows[0];
+    res.render("categories/show", {
+      title: category.name,
+      category,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+// NEW CATEGORY FORM
+exports.newCategoryForm = async (req, res) => {
+  try {
+    res.render("categories/new", {
+      title: "New Category",
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
@@ -39,7 +58,28 @@ exports.createCategory = async (req, res) => {
       "INSERT INTO categories (name, description) VALUES ($1, $2)",
       [name, description]
     );
-    res.redirect("/categories"); // redirect back to list after create
+    res.redirect("/categories");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+exports.editCategoryForm = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      "SELECT * FROM categories WHERE category_id = $1",
+      [id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).send("Category not found");
+    }
+    const category = result.rows[0];
+    res.render("categories/edit", {
+      title: "Edit Category",
+      category,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
@@ -55,7 +95,7 @@ exports.updateCategory = async (req, res) => {
       "UPDATE categories SET name = $1, description = $2 WHERE category_id = $3",
       [name, description, id]
     );
-    res.redirect(`/categories/${id}`); // redirect back to show page
+    res.redirect(`/categories/${id}`);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
@@ -67,7 +107,7 @@ exports.deleteCategory = async (req, res) => {
   const { id } = req.params;
   try {
     await pool.query("DELETE FROM categories WHERE category_id = $1", [id]);
-    res.redirect("/categories"); // redirect back to list after delete
+    res.redirect("/categories");
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
