@@ -18,8 +18,12 @@
       <label for="rating">Rating:</label>
       <input type="text" name="rating" />
       <br />
-      <label for="category_id">Category ID:</label>
-      <input type="number" name="category_id" />
+      <label for="category_id">Category</label>
+      <select name="category_id" required>
+        <% categories.forEach(cat => { %>
+        <option value="<%= cat.category_id %>"><%= cat.name %></option>
+        <% }) %>
+      </select>
       <br />
       <label for="description">Description:</label>
       <textarea name="description"></textarea>
