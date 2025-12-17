@@ -2,11 +2,10 @@ const express = require("express");
 const router = express.Router();
 const filmController = require("../controllers/filmController");
 
-router.get("/new", (req, res) => {
-  res.render("films/new");
-});
+router.get("/new", filmController.newFilmForm);
 
 // CRUD routes
+
 router.get("/", filmController.getAllFilms);
 router.get("/:id", filmController.getFilmById);
 router.post("/", filmController.createFilm);

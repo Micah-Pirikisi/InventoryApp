@@ -9,6 +9,8 @@ app.set("views", path.join(__dirname, "views"));
 
 // Middleware to parse form data (important!)
 app.use(express.urlencoded({ extended: true }));
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 // Import route files
 const categoryRoutes = require("./routes/categoryRoutes");

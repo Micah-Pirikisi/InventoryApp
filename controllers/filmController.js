@@ -89,6 +89,17 @@ exports.createFilm = async (req, res) => {
   }
 };
 
+// NEW FILM FORM
+exports.newFilmForm = async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM categories ORDER BY name");
+    res.render("films/new", { categories: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
 // UPDATE a film
 exports.updateFilm = async (req, res) => {
   const { id } = req.params;

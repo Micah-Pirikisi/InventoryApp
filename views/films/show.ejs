@@ -13,13 +13,22 @@
     <h2>Director/s</h2>
     <ul>
       <% directors.forEach(director => { %>
-      <li><%= director.name %></li>
+      <li>
+        <%= director.name %>
+        <form
+          action="/films/<%= film.film_id %>/directors/<%= director.director_id %>?_method=DELETE"
+          method="POST"
+          style="display: inline"
+        >
+          <button type="submit">Remove</button>
+        </form>
+      </li>
       <% }) %>
     </ul>
 
     <form action="/films/<%= film.film_id %>/directors" method="POST">
       <label for="director_id">Add Director:</label>
-      <select name="director_id">
+      <select name="director_id" required>
         <% allDirectors.forEach(director => { %>
         <option value="<%= director.director_id %>">
           <%= director.name %>
@@ -32,13 +41,22 @@
     <h2>Actors</h2>
     <ul>
       <% actors.forEach(actor => { %>
-      <li><%= actor.name %></li>
+      <li>
+        <%= actor.name %>
+        <form
+          action="/films/<%= film.film_id %>/actors/<%= actor.actor_id %>?_method=DELETE"
+          method="POST"
+          style="display: inline"
+        >
+          <button type="submit">Remove</button>
+        </form>
+      </li>
       <% }) %>
     </ul>
 
     <form action="/films/<%= film.film_id %>/actors" method="POST">
       <label for="actor_id">Add Actor:</label>
-      <select name="actor_id">
+      <select name="actor_id" required>
         <% allActors.forEach(actor => { %>
         <option value="<%= actor.actor_id %>"><%= actor.name %></option>
         <% }) %>
