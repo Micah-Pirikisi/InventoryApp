@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Directors</title>
+  </head>
+  <body>
+    <h1>All Directors</h1>
+    <ul>
+      <% directors.forEach(actor => { %>
+      <li>
+        <a href="/directors/<%= director.director_id %>"><%= director.name %></a>
+      </li>
+      <% }) %>
+    </ul>
+    <a href="/directors/new">+ Add New Director</a>
+  </body>
+</html>

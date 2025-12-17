@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= director.name %></title>
+  </head>
+  <body>
+    <h1><%= director.name %></h1>
+    <p>Born: <%= director.birth_year %></p>
+    <p>Nationality: <%= director.nationality %></p>
+
+    <a href="/actors/<%= director.director_id %>/edit">Edit</a>
+    <form
+      action="/actors/<%= director.director_id %>?_method=DELETE"
+      method="POST"
+      style="display: inline"
+    >
+      <button type="submit">Delete</button>
+    </form>
+    <br />
+    <a href="/directors">Back to all directors</a>
+  </body>
+</html>
