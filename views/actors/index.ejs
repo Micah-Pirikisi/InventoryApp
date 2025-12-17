@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Actors</title>
+  </head>
+  <body>
+    <h1>All Actors</h1>
+    <ul>
+      <% actors.forEach(actor => { %>
+      <li>
+        <a href="/actors/<%= actor.actor_id %>"><%= actor.name %></a>
+      </li>
+      <% }) %>
+    </ul>
+    <a href="/actors/new">+ Add New Actor</a>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= actor.name %></title>
+  </head>
+  <body>
+    <h1><%= actor.name %></h1>
+    <p>Born: <%= actor.birth_year %></p>
+    <p>Nationality: <%= actor.nationality %></p>
+
+    <a href="/actors/<%= actor.actor_id %>/edit">Edit</a>
+    <form
+      action="/actors/<%= actor.actor_id %>?_method=DELETE"
+      method="POST"
+      style="display: inline"
+    >
+      <button type="submit">Delete</button>
+    </form>
+    <br />
+    <a href="/actors">Back to all actors</a>
+  </body>
+</html>
